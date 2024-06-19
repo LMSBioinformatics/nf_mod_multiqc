@@ -12,7 +12,7 @@ process multiqc {
     path(qc_and_logs)
 
     output:
-    path '*_fastqc.{zip,html}'
+    path 'qc_report.html'
 
     stub:
     "touch qc_report.html"
