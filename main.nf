@@ -47,6 +47,12 @@ remove_sections:
     - fastqc_per_base_n_content
     - fastqc_status_checks
     - fastqc_overrepresented_sequences
+extra_fn_clean_exts:
+    - ".sourmash"
+    - ".bowtie2"
+    - ".hisat2"
+    - ".bwa"
+    - ".star"
 software_versions:
     ${workflow.manifest.name}: "${workflow.manifest.version}"
 ${software_versions}
