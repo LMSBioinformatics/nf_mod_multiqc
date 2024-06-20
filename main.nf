@@ -26,7 +26,7 @@ process multiqc {
         "\n" +
         run_info
             .findAll { it.key in ["illumina", "rta"] }
-            .collect { "    ${it}: \"${params[it]._version}\"" }
+            .collect { "    ${it.key}: \"${it.value}\"" }
             .join("\n")
     report_header_info =
         run_info
