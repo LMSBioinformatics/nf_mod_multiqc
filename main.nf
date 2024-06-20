@@ -9,7 +9,8 @@ process multiqc {
     module params.multiqc._module
 
     input:
-    path(qc_and_logs), val(run_info)
+    path(qc_and_logs)
+    val(run_info)
 
     output:
     path 'qc_report.html'
@@ -22,6 +23,9 @@ process multiqc {
         params._submodules
             .collect { "    ${it}: \"${params[it]._version}\"" }
             .join("\n")
+    id = run_info.id
+    experiment_name = run_info.experiment_name
+    run_info = run_info.findAll { !(it.key in ["id", "experiment_name"]) }
     report_header_info =
         run_info
             .collect { "    - ${it.key}: \"${it.value}\"" }
@@ -29,7 +33,8 @@ process multiqc {
 
     """
 cat > multiqc_config.yaml << EOF
-title: test_title
+title: ${id}
+subtitle: ${experiment_name}
 intro_text: False
 custom_logo: ${workflow.projectDir}/modules/multiqc/assets/mrc_lms.png
 custom_logo_url: "https://lms.mrc.ac.uk"
