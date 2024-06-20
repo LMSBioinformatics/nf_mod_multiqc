@@ -22,19 +22,22 @@ process multiqc {
     software_versions =
         params._submodules
             .collect { "    ${it}: \"${params[it]._version}\"" }
+            .join("\n") +
+        "\n" +
+        run_info
+            .findAll { it.key in ["illumina", "rta"] }
+            .collect { "    ${it}: \"${params[it]._version}\"" }
             .join("\n")
-    id = run_info.id
-    experiment_name = run_info.experiment_name
-    run_info = run_info.findAll { !(it.key in ["id", "experiment_name"]) }
     report_header_info =
         run_info
+            .findAll { !(it.key in ["id", "experiment_name", "illumina", "rta"]) }
             .collect { "    - ${it.key}: \"${it.value}\"" }
             .join("\n")
 
     """
 cat > multiqc_config.yaml << EOF
-title: ${id}
-subtitle: ${experiment_name}
+title: ${run_info.id}
+subtitle: ${run_info.experiment_name}
 intro_text: False
 custom_logo: ${workflow.projectDir}/modules/multiqc/assets/mrc_lms.png
 custom_logo_url: "https://lms.mrc.ac.uk"
@@ -56,7 +59,7 @@ extra_fn_clean_exts:
 software_versions:
     ${workflow.manifest.name}: "${workflow.manifest.version}"
 ${software_versions}
-${run_info ? "report_header_info:" : ""}
+${report_header_info ? "report_header_info:" : ""}
 ${report_header_info}
 EOF
 
