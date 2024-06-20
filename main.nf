@@ -45,7 +45,6 @@ show_analysis_time: False
 remove_sections:
     - fastqc_per_sequence_quality_scores
     - fastqc_per_base_n_content
-    - fastqc_sequence_length_distribution
     - fastqc_status_checks
     - fastqc_overrepresented_sequences
 software_versions:
