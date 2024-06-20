@@ -9,7 +9,7 @@ process multiqc {
     module params.multiqc._module
 
     input:
-    path(qc_and_logs)
+    path(qc_and_logs), val(run_info)
 
     output:
     path 'qc_report.html'
@@ -21,6 +21,10 @@ process multiqc {
     software_versions =
         params._submodules
             .collect { "    ${it}: \"${params[it]._version}\"" }
+            .join("\n")
+    report_header_info =
+        run_info
+            .collect { "    - ${it.key}: \"${it.value}\"" }
             .join("\n")
 
     """
@@ -42,6 +46,8 @@ remove_sections:
 software_versions:
     ${workflow.manifest.name}: "${workflow.manifest.version}"
 ${software_versions}
+${run_info ? "report_header_info:" : ""}
+${report_header_info}
 EOF
 
 multiqc \
