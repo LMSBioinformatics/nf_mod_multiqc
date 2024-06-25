@@ -56,6 +56,18 @@ extra_fn_clean_exts:
     - ".hisat2"
     - ".bwa"
     - ".star"
+table_columns_name:
+    Sourmash:
+        "% Top 5": "% Classified"
+custom_table_header_config:
+    general_stats_table:
+        total_sequences:
+            format: "{:,g}"
+decimalPoint_format: "."
+thousandsSep_format: ","
+read_count_multiplier: 1
+read_count_prefix: ""
+read_count_desc: ""
 software_versions:
     ${workflow.manifest.name}: "${workflow.manifest.version}"
 ${software_versions}
@@ -64,9 +76,9 @@ ${report_header_info}
 EOF
 
 multiqc \
-    -ip \
-    --no-data-dir \
-    -n qc_report.html \
-    .
+-ip \
+--no-data-dir \
+-n qc_report.html \
+.
 """
 }
