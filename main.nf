@@ -14,10 +14,10 @@ process multiqc {
     val(run_info)
 
     output:
-    path 'qc_report.html'
+    path "${run_info.id}_multiqc.html"
 
     stub:
-    "touch qc_report.html"
+    "touch ${run_info.id}_multiqc.html"
 
     script:
     software_versions =
@@ -79,7 +79,7 @@ EOF
 multiqc \
 -ip \
 --no-data-dir \
--n qc_report.html \
+-n ${run_info.id}_multiqc.html \
 .
 """
 }
