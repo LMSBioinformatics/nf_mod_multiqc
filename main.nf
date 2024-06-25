@@ -3,7 +3,8 @@ process multiqc {
     memory 512.MB
     time 5.m
 
-    publishDir 'qc', mode: "copy"
+    publishDir "${params.outdir}/qc",
+        mode: "copy"
 
     beforeScript "module reset"
     module params.multiqc._module
