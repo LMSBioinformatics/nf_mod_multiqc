@@ -1,3 +1,6 @@
+import java.text.DecimalFormat
+df = new DecimalFormat("###,###,###,###")
+
 process multiqc {
     cpus 1
     memory 512.MB
@@ -32,7 +35,9 @@ process multiqc {
     report_header_info =
         run_info
             .findAll { !(it.key in ["id", "experiment_name", "illumina", "rta"]) }
-            .collect { "    - ${it.key}: \"${it.value}\"" }
+            .collect { k, v ->
+                try { v = df.format(v.toInteger()) } catch(Exception e) { ; }
+                "    - ${k}: \"${v}\"" }
             .join("\n")
 
     """
@@ -63,7 +68,7 @@ table_columns_name:
 custom_table_header_config:
     general_stats_table:
         total_sequences:
-            format: "{:,g}"
+            format: "{:,.0f}"
 decimalPoint_format: "."
 thousandsSep_format: ","
 read_count_multiplier: 1
