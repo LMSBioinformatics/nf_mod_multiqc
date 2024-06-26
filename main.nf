@@ -9,7 +9,7 @@ process multiqc {
     publishDir "${params.outdir}/qc",
         mode: "copy"
 
-    beforeScript "module reset"
+    beforeScript "module reset &> /dev/null"
     module params.multiqc._module
 
     input:
@@ -17,7 +17,7 @@ process multiqc {
     val(run_info)
 
     output:
-    path "${run_info.id}_multiqc.html"
+    path "${run_info.id}_multiqc.html", emit: files
 
     stub:
     "touch ${run_info.id}_multiqc.html"
