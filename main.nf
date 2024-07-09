@@ -4,7 +4,7 @@ df = new DecimalFormat("###,###,###,###")
 process multiqc {
     cpus 1
     memory 512.MB
-    time 5.m
+    time 30.m
 
     publishDir "${params.outdir}/qc",
         mode: "copy"
