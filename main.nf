@@ -3,8 +3,8 @@ df = new DecimalFormat("###,###,###,###")
 
 process multiqc {
     cpus 1
-    memory 512.MB
-    time 30.m
+    memory 1.GB
+    time 15.m
 
     publishDir "${params.outdir}/qc",
         mode: "copy"
