@@ -1,9 +1,9 @@
 import java.text.DecimalFormat
-df = new DecimalFormat("###,###,###,###")
+df = new DecimalFormat("###,###,###,###,###")
 
 process multiqc {
     cpus 1
-    memory 1.GB
+    memory 4.GB
     time 15.m
 
     publishDir "${params.outdir}/qc",
